@@ -36,6 +36,7 @@ function kvsFlush() {
 
 function kvsFlushIndex(obj, index) {
     var pathname = getSystemFileOfIndex('store.json', index);
+    fs.mkdirSync(path.dirname(pathname), { recursive: true });
     fs.writeFileSync(pathname, JSON.stringify(obj, null, 2));
     console.log('Store flushed for index ' + index);
     return true;

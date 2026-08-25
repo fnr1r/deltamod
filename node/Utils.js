@@ -229,6 +229,7 @@ module.exports = {
     properRelaunch,
     getSteamDirectory,
     downloadFile,
+    generateUUID,
 
     getWindow,
     setWindow,

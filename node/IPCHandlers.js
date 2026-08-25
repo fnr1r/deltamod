@@ -105,6 +105,9 @@ function obtainThemes() {
 }
 
 function validateDeltarune(deltapath) {
+    if (deltapath == null) {
+        return false;
+    }
     const keyItems = ['data.win'];
     const isValid = keyItems.every(item => {
         const exists = fs.existsSync(path.join(deltapath, item));
@@ -917,14 +920,14 @@ module.exports = function registerIPCHandlers(context) {
         }
 
         try {
-            KeyValue.setKVSOfIndex('loadedDeltarune', true, i);
-            KeyValue.setKVSOfIndex('gamePath', destPath, i);
-            KeyValue.setKVSOfIndex('gamePid', selectedGame, i);
-            KeyValue.setKVSOfIndex('deltaruneEdition', 'rem', i); // stub to signal it has been upgraded
-            KeyValue.setKVSOfIndex('enabledMods', [], i);
-            KeyValue.setKVSOfIndex('isSteam', steam, i);
-            KeyValue.setKVSOfIndex('originalSteamPath', steam ? sourcePath : "", i);
-            KeyValue.setKVSOfIndex('steamAppId', steam ? chosenEdition.appid : "", i);
+            KeyValue.setKVSOfIndex('loadedDeltarune', true, uid);
+            KeyValue.setKVSOfIndex('gamePath', destPath, uid);
+            KeyValue.setKVSOfIndex('gamePid', selectedGame, uid);
+            KeyValue.setKVSOfIndex('deltaruneEdition', 'rem', uid); // stub to signal it has been upgraded
+            KeyValue.setKVSOfIndex('enabledMods', [], uid);
+            KeyValue.setKVSOfIndex('isSteam', steam, uid);
+            KeyValue.setKVSOfIndex('originalSteamPath', steam ? sourcePath : "", uid);
+            KeyValue.setKVSOfIndex('steamAppId', steam ? chosenEdition.appid : "", uid);
 
             page(fromIM ? "installmanager" : "main");
             return true;
