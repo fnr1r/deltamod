@@ -837,12 +837,11 @@ module.exports = function registerIPCHandlers(context) {
     ipcMain.handle('createNewInstallation', async (event, args) => {
         // arguments
         const win = getWindow();
-        const steam = args[0] === 'steam';
-        const isFromLocate = args[1] === 'locate';
-        const specifiedLocatePath = isFromLocate ? args[2] : null;
-        const fromIM = args[3];
-        let selectedGame = args[4];
-        let copyToDMod = args[5] == 'copy';
+        const selectedGame = args[0];
+        const specifiedLocatePath = args[1];
+        const steam = args[2].is_from_steam;
+        const fromIM = args[2].is_from_install_manager;
+        const copyToDMod = args[2].copy_to_d_mod;
 
         let i = 0;
         fs.readdirSync(app.getPath('userData')).filter(f => f.startsWith('deltamod_system-')).forEach(file => {

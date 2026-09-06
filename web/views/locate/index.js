@@ -8,21 +8,26 @@ async function locateDelta() {
     }
 }
 
-async function id() {
-    console.log(document.getElementById('dpath').value.replaceAll('\\', '/'));
+async function createNewInstall(path, flags) {
     if (window.gid == 'noid') {
         htmlAlert("Warning","Please select a game.",[{text:"Ok",resolveWith:'ok'}]);
         return;
     }
-    await window.electronAPI.invoke("createNewInstallation", ["", "locate", (window.currentPageStack.pathOV ? window.currentPageStack.pathOV : document.getElementById('dpath').value).replaceAll('\\', '/'), (window.fromIM == undefined ? false : window.fromIM), window.gid, document.getElementById('copyAnyways').checked ? 'copy' : 'ncopy']);
+
+    flags.is_from_install_manager = (window.fromIM == undefined ? false : window.fromIM);
+    flags.copy_to_d_mod = document.getElementById('copyAnyways').checked;
+
+    await window.electronAPI.invoke("createNewInstallation", [window.gid, path, flags]);
+}
+
+async function id() {
+    let install_path = document.getElementById('dpath').value.replaceAll('\\', '/');
+    console.log(install_path);
+    await createNewInstall(install_path, {})
 }
 
 async function steam() {
-    if (window.gid == 'noid') {
-        htmlAlert("Warning","Please select a game.",[{text:"Ok",resolveWith:'ok'}]);
-        return;
-    }
-    await window.electronAPI.invoke("createNewInstallation", ["steam", "", "", window.fromIM, window.gid, document.getElementById('copyAnyways').checked ? 'copy' : 'ncopy']);
+    await createNewInstall(null, { "is_from_steam": true });
 }
 
 window.currentPageStack.id = id;
